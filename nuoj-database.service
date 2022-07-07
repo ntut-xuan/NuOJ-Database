@@ -1,0 +1,11 @@
+[Unit]
+Description=NuOJ-Database
+
+[Service]
+Type=simple
+ExecStart=/opt/nuoj-database/backend_db.py
+Restart=always
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
