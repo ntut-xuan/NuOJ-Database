@@ -16,7 +16,7 @@ database-install:
 	sudo git clone https://github.com/ntut-xuan/NuOJ-Database.git /opt/nuoj-database/
 	sudo chmod -R 647 /opt/nuoj-database/*
 	sudo cp /opt/nuoj-database/nuoj-database.service /etc/systemd/system/
-	sudo chmod 647 /etc/systemd/system/nuoj-sandbox.service
+	sudo chmod 647 /etc/systemd/system/nuoj-database.service
 	sudo systemctl daemon-reload
 	sudo systemctl enable nuoj-database
 	sudo systemctl start nuoj-database
