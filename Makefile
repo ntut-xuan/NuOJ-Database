@@ -10,8 +10,8 @@ database-install:
 	sudo apt-get -y update
 	sudo apt-get -y upgrade
 	sudo apt-get install python3 redis git
-	pip3 install flask
-	pip3 install redis
+	sudo pip3 install flask
+	sudo pip3 install redis
 	sudo mkdir /opt/nuoj-database/
 	sudo git clone https://github.com/ntut-xuan/NuOJ-Database.git /opt/nuoj-database/
 	sudo chmod -R 647 /opt/nuoj-database/*
