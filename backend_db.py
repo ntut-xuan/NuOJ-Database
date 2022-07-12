@@ -5,6 +5,22 @@ import json
 
 app = Flask(__name__)
 
+def fliter_by_args(data_dict, args):
+    if len(args) == 0:
+        return list(data_dict.values())
+    
+    filter_list = []
+    for key in data_dict.keys():
+        data = data_dict[key]
+        flag = True
+        for arg_key in args.keys():
+            if arg_key not in data.keys() or data[arg_key] != args[arg_key]:
+                flag = False
+                continue
+        if flag:
+            filter_list.append(data)
+    return filter_list
+
 @app.route("/users/<username>/", methods=["GET"])
 def get_user(username):
     redis_app = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
@@ -16,6 +32,16 @@ def get_user(username):
     user_data = user_db[username]
     response["data"] = user_data
     redis_app.close()
+    return Response(json.dumps(response), mimetype="application/json")
+
+
+@app.route("/users/", methods=["GET"])
+def get_all_users():
+    args = request.args
+    response = {"status": "OK"}
+    redis_app = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+    user_db = json.loads(redis_app.get("user"))
+    response["data"] = fliter_by_args(user_db, args)
     return Response(json.dumps(response), mimetype="application/json")
 
 @app.route("/users/", methods=["POST"])
@@ -54,6 +80,10 @@ def update_user(username):
     redis_app.set("user", json.dumps(user_db))
     redis_app.close()
     return Response(json.dumps(response), mimetype="application/json")
+
+@app.route("/heartbeat", methods=["GET"])
+def heartbeat():
+    return {"status": "OK"}
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3349)
