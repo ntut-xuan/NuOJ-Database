@@ -19,7 +19,9 @@ database-install:
 	sudo chmod 647 /etc/systemd/system/nuoj-database.service
 	sudo systemctl daemon-reload
 	sudo systemctl enable nuoj-database
+	sudo systemctl enable redis-server
 	sudo systemctl start nuoj-database
+	sudo systemctl start redis-server
 
 database-deploy:
 	sudo python3 /opt/nuoj-database/setup_database.py

@@ -7,4 +7,10 @@ def setup_profile():
     redis_db.set("user", str(json.dumps(nuoj_user)))
     redis_db.close()
 
+def setup_problem():
+    redis_db = redis.Redis(host='localhost', port=6379, decode_responses=True)
+    redis_db.set("problem", json.dumps({}))
+    redis_db.close()
+
 setup_profile()
+setup_problem()
